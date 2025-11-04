@@ -210,14 +210,16 @@ seleccione posición de cartas de la forma 011101110
 
 
 def main():
+    new_deck_test()
+    selected_cards_validation_tests()
+    has_and_get_hand_tests()
     game = Balatro()
     game.loop()
 
-def test():
+def new_deck_test():
     game = Balatro()
     game.new_deck()
     
-    ############ new_deck tests
     another_deck = [('T', 1), ('T', 2), ('T', 3), ('T', 4), ('T', 5), ('T', 6), ('T', 7), ('T', 8), ('T', 9), ('T', 10), ('T', 11), ('T', 12), ('T', 13), ('C', 1), ('C', 2), ('C', 3), ('C', 4), ('C', 5), ('C', 6), ('C', 7), ('C', 8), ('C', 9), ('C', 10), ('C', 11), ('C', 12), ('C', 13), ('D', 1), ('D', 2), ('D', 3), ('D', 4), ('D', 5), ('D', 6), ('D', 7), ('D', 8), ('D', 9), ('D', 10), ('D', 11), ('D', 12), ('D', 13), ('P', 1), ('P', 2), ('P', 3), ('P', 4), ('P', 5), ('P', 6), ('P', 7), ('P', 8), ('P', 9), ('P', 10), ('P', 11), ('P', 12), ('P', 13)]
     assert game.deck == another_deck
     game.shuffle_deck()
@@ -233,16 +235,18 @@ def test():
     assert len(game.deck) == 41
     assert all(card not in game.deck for card in game.hand)
     
-    ########### selected_cards_validation tests
+def selected_cards_validation_tests():
+    game = Balatro()
     selected_cards = '111000001'
     assert game.selected_cards_validation(selected_cards) == True
     selected_cards = '111111001'
     assert game.selected_cards_validation(selected_cards) == False
 
 
-    ############ has and get hand tests
+def has_and_get_hand_tests():
+    game = Balatro()
     game.hand = [('P', 2), ('C', 2), ('P', 2), ('T', 2), ('P', 7), ('C', 4), ('P', 9), ('C', 13), ('D', 5)]
-    
+    #high card tests
     selected_cards = '111110000'  
     assert game.has_high_card(selected_cards) == True
     assert game.get_high_card(selected_cards) == [('P', 7)]
@@ -250,6 +254,7 @@ def test():
     assert game.has_high_card(selected_cards) == True
     assert game.get_high_card(selected_cards) == [('C', 13)]
     
+    #pair tests
     selected_cards = '011000000'
     assert game.has_pair(selected_cards) == True
     assert game.get_pair(selected_cards) == [('C', 2), ('P', 2)]
@@ -257,8 +262,14 @@ def test():
     assert game.has_pair(selected_cards) == True
     assert game.get_pair(selected_cards) == [('P', 2), ('T', 2)]
 
+    #two pairs tests
+    #Three of a kind tests
+    #Straight tests
+    #Flush tests
+    #Full house tests
+    #Four of a kind tests
+    #Straight flush tests
 
 
 if __name__ == "__main__":
-    test()
     main()
