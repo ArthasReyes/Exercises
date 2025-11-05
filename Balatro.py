@@ -56,72 +56,72 @@ class Balatro:
         self.get_hand(win_conditions['cards_on_hand'])
         self.show_hand()
         
-        selected_cards = ''
-        while not self.selected_cards_validation(selected_cards):
-            selected_cards = input('''Para botar cartas:
+        cards_to_drop = ''
+        while not self.droped_cards_validation(cards_to_drop):
+            cards_to_drop = input('''Para botar cartas:
 seleccione posición de cartas de la forma 011101110
 1 para seleccionar, 0 para no seleccionar: ''')
-        self.drop_cards(selected_cards)
+        self.drop_cards(cards_to_drop)
 
-        selected_cards = ''
-        while not self.selected_cards_validation(selected_cards):
-            selected_cards = input('''Para jugar la mano:
+        cards_to_play = ''
+        while not self.selected_cards_validation(cards_to_play):
+            cards_to_play = input('''Para jugar la mano:
 seleccione posición de cartas de la forma 011101110
 1 para seleccionar, 0 para no seleccionar, máximo 5 1's: ''')
             
         best_chips = 0
         chips = 0
         best_hand = None        
-        if self.has_high_card(selected_cards):
-            hand = self.get_high_card(selected_cards)
+        if self.has_high_card(cards_to_play):
+            hand = self.get_high_card(cards_to_play)
             chips = self.calculate_chips(posible_chips['high_card'])
             if chips > best_chips:
                 best_chips = chips
                 best_hand = hand
-        if self.has_pair(selected_cards):
-            hand = self.get_pair(selected_cards)
+        if self.has_pair(cards_to_play):
+            hand = self.get_pair(cards_to_play)
             chips = self.calculate_chips(posible_chips['pair'])
             if chips > best_chips:
                 best_chips = chips
                 best_hand = hand
-        if self.has_two_pairs(selected_cards):
-            hand = self.get_two_pairs(selected_cards)
+        if self.has_two_pairs(cards_to_play):
+            hand = self.get_two_pairs(cards_to_play)
             chips = self.calculate_chips(posible_chips['two_pairs'])
             if chips > best_chips:
                 best_chips = chips
                 best_hand = hand
-        if self.has_three_of_a_kind(selected_cards):
-            hand = self.get_three_of_a_kind(selected_cards)
+        if self.has_three_of_a_kind(cards_to_play):
+            hand = self.get_three_of_a_kind(cards_to_play)
             chips = self.calculate_chips(posible_chips['three_of_a_kind'])
             if chips > best_chips:
                 best_chips = chips
                 best_hand = hand
-        if self.has_straight(selected_cards):
-            hand = self.get_straight(selected_cards)
+        if self.has_straight(cards_to_play):
+            hand = self.get_straight(cards_to_play)
             chips = self.calculate_chips(posible_chips['straight'])
             if chips > best_chips:
                 best_chips = chips
                 best_hand = hand
-        if self.has_flush(selected_cards):
-            hand = self.get_flush(selected_cards)
+        if self.has_flush(cards_to_play):
+            hand = self.get_flush(cards_to_play)
             chips = self.calculate_chips(posible_chips['flush'])
             if chips > best_chips:
                 best_chips = chips
                 best_hand = hand
-        if self.has_full_house(selected_cards):
-            hand = self.get_full_house(selected_cards)
+        if self.has_full_house(cards_to_play):
+            hand = self.get_full_house(cards_to_play)
             chips = self.calculate_chips(posible_chips['full_house'])
             if chips > best_chips:
                 best_chips = chips
                 best_hand = hand
-        if self.has_four_of_a_kind(selected_cards):
-            hand = self.get_four_of_a_kind(selected_cards)
+        if self.has_four_of_a_kind(cards_to_play):
+            hand = self.get_four_of_a_kind(cards_to_play)
             chips = self.calculate_chips(posible_chips['four_of_a_kind'])
             if chips > best_chips:
                 best_chips = chips
                 best_hand = hand
-        if self.has_straight_flush(selected_cards):
-            hand = self.get_straight_flush(selected_cards)
+        if self.has_straight_flush(cards_to_play):
+            hand = self.get_straight_flush(cards_to_play)
             chips = self.calculate_chips(posible_chips['straight_flush'])
             if chips > best_chips:
                 best_chips = chips
@@ -159,7 +159,11 @@ seleccione posición de cartas de la forma 011101110
         # TODO: retornar True si la cadena tiene 9 caracteres (0/1)
         # TODO: validar máximo de 5 "1" cuando sea jugada
         return False
-
+    
+    def droped_cards_validation(self, selected_cards: str) -> bool:
+        # TODO: retornar True si la cadena tiene 9 caracteres (0/1)
+        return False
+    
     def drop_cards(self, selected_cards: str) -> None:
         # TODO: Eliminar de self.hand las cartas marcadas con '1'
         pass
@@ -276,6 +280,13 @@ def selected_cards_validation_tests() -> None:
     assert game.selected_cards_validation(selected_cards) == True
     selected_cards = '111111001'
     assert game.selected_cards_validation(selected_cards) == False
+    selected_cards = '111000001001'
+    assert game.selected_cards_validation(selected_cards) == False
+    
+    selected_cards = '111111111'
+    assert game.droped_cards_validation(selected_cards) == True
+    selected_cards = '11111111111'
+    assert game.droped_cards_validation(selected_cards) == False
 
 
 def has_and_get_hand_tests() -> None:
