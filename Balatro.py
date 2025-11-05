@@ -1,36 +1,38 @@
+from typing import List, Tuple
+Card = Tuple[str, int]  # ('P', 2), ('C', 10), etc.
+
 class Balatro:
     def __init__(self):
-        self.state = "menu"
-        self.deck = []
-        self.hand = []
+        self.state: str = "menu"
+        self.deck: List[Card] = []
+        self.hand: List[Card] = []
 
-    def loop(self):
+    def loop(self) -> None:
         while True:
             if self.state == "menu":
                 self.menu()
             elif self.state == "demo":
                 self.demo()
 
-    def menu(self):
+    def menu(self) -> None:
         option = input('''
 1. Nueva baraja
-2. Mostrar baraja
-3. Barajar
-4. Jugar Demo 
+2. Barajar
+3. Jugar Demo 
 ##########################             
 ''')
         if option == '1':
             self.new_deck()
+            self.show_deck()
         elif option == '2':
+            self.shuffle_deck()
             self.show_deck()
         elif option == '3':
-            self.shuffle_deck()
-        elif option == '4':
             self.state = "demo"
         else:
             print("Opción no válida.")
 
-    def demo(self):
+    def demo(self) -> None:
         win_conditions = {
             'chips': 500,
             'hand_remaining': 3,
@@ -54,14 +56,14 @@ class Balatro:
         self.get_hand(win_conditions['cards_on_hand'])
         self.show_hand()
         
-        selected_cards = []
+        selected_cards = ''
         while not self.selected_cards_validation(selected_cards):
             selected_cards = input('''Para botar cartas:
 seleccione posición de cartas de la forma 011101110
 1 para seleccionar, 0 para no seleccionar: ''')
         self.drop_cards(selected_cards)
 
-        selected_cards = []
+        selected_cards = ''
         while not self.selected_cards_validation(selected_cards):
             selected_cards = input('''Para jugar la mano:
 seleccione posición de cartas de la forma 011101110
@@ -126,101 +128,136 @@ seleccione posición de cartas de la forma 011101110
                 best_hand = hand
         
         print(f"Mejor mano: {best_hand} con {best_chips} fichas.")
-        "Ganaste la demo" if best_chips >= win_conditions['chips'] else "No ganaste la demo"
+        # TODO: imprimir resultado de victoria o derrota
+        print("Ganaste la demo") if best_chips >= win_conditions['chips'] else print("No ganaste la demo")
 
         self.state = "menu"
 
-    def new_deck(self):
+    def new_deck(self) -> None:
+        # TODO: Crear las 52 cartas como lista de tuplas (palo, valor)
+        # palos: 'T', 'C', 'D', 'P'
         pass
 
-    def show_deck(self):
+    def show_deck(self) -> None:
+        # TODO: Imprimir la baraja actual en pantalla
         pass
 
-    def shuffle_deck(self):
+    def shuffle_deck(self) -> None:
+        # TODO: Mezclar la baraja
         pass
 
-    def get_hand(self, num_cards):
+    def get_hand(self, num_cards: int) -> None:
+        # TODO: Rellenar la mano hasta tener 'num_cards' cartas
+        # tomar las cartas necesarias desde self.deck
         pass
 
-    def show_hand(self):
+    def show_hand(self) -> None:
+        # TODO: Mostrar la mano actual con índices (para selección)
         pass
 
-    def selected_cards_validation(self, selected_cards):
+    def selected_cards_validation(self, selected_cards: str) -> bool:
+        # TODO: retornar True si la cadena tiene 9 caracteres (0/1)
+        # TODO: validar máximo de 5 "1" cuando sea jugada
+        return False
+
+    def drop_cards(self, selected_cards: str) -> None:
+        # TODO: Eliminar de self.hand las cartas marcadas con '1'
         pass
 
-    def drop_cards(self, selected_cards):
-        pass
+    def has_high_card(self, selected_cards: str) -> bool:
+        # TODO: retornar True si hay carta alta válida
+        return False
 
-    def has_high_card(self, selected_cards):
-        return True
-
-    def get_high_card(self, selected_cards):
-        pass
+    def get_high_card(self, selected_cards: str) -> List[Card]:
+        # TODO: devolver la carta más alta entre las seleccionadas
+        return []
     
-    def has_pair(self, selected_cards):
-        return True
+    def has_pair(self, selected_cards: str) -> bool:
+        # TODO: retornar True si hay par entre las seleccionadas
+        return False
 
-    def get_pair(self, selected_cards):
-        pass
+    def get_pair(self, selected_cards: str) -> List[Card]:
+        # TODO: devolver las cartas del par
+        return []
 
-    def calculate_chips(self, chips_info):
+    def calculate_chips(self, chips_info: dict) -> int:
+        # TODO: calcular fichas según 'chips' y 'multiply_by'
         return 0
 
-    def has_two_pairs(self, selected_cards):
-        return True
+    def has_two_pairs(self, selected_cards: str) -> bool:
+        # TODO: detectar dos pares
+        return False
 
-    def get_two_pairs(self, selected_cards):
-        pass
+    def get_two_pairs(self, selected_cards: str) -> List[Card]:
+        # TODO: devolver las cartas de ambos pares
+        return []
 
-    def has_three_of_a_kind(self, selected_cards):
-        return True
+    def has_three_of_a_kind(self, selected_cards: str) -> bool:
+        # TODO: detectar trío
+        return False
 
-    def get_three_of_a_kind(self, selected_cards):
-        pass
+    def get_three_of_a_kind(self, selected_cards: str) -> List[Card]:
+        # TODO: devolver las tres cartas iguales
+        return []
 
-    def has_straight(self, selected_cards):
-        return True
+    def has_straight(self, selected_cards: str) -> bool:
+        # TODO: detectar escalera
+        return False
 
-    def get_straight(self, selected_cards):
-        pass
+    def get_straight(self, selected_cards: str) -> List[Card]:
+        # TODO: devolver las cartas consecutivas
+        return []
 
-    def has_flush(self, selected_cards):
-        return True
+    def has_flush(self, selected_cards: str) -> bool:
+        # TODO: detectar color
+        return False
 
-    def get_flush(self, selected_cards):
-        pass
+    def get_flush(self, selected_cards: str) -> List[Card]:
+        # TODO: devolver las cartas del mismo palo
+        return []
 
-    def has_full_house(self, selected_cards):
-        return True
+    def has_full_house(self, selected_cards: str) -> bool:
+        # TODO: detectar full house
+        return False
 
-    def get_full_house(self, selected_cards):
-        pass
+    def get_full_house(self, selected_cards: str) -> List[Card]:
+        # TODO: devolver las cartas del full
+        return []
 
-    def has_four_of_a_kind(self, selected_cards):
-        return True
+    def has_four_of_a_kind(self, selected_cards: str) -> bool:
+        # TODO: detectar póker
+        return False
 
-    def get_four_of_a_kind(self, selected_cards):
-        pass
+    def get_four_of_a_kind(self, selected_cards: str) -> List[Card]:
+        # TODO: devolver las cuatro cartas iguales
+        return []
 
-    def has_straight_flush(self, selected_cards):
-        return True
+    def has_straight_flush(self, selected_cards: str) -> bool:
+        # TODO: detectar escalera de color
+        return False
 
-    def get_straight_flush(self, selected_cards):
-        pass
+    def get_straight_flush(self, selected_cards: str) -> List[Card]:
+        # TODO: devolver las cartas de la escalera de color
+        return []
 
 
-def main():
+def main() -> None:
     new_deck_test()
     selected_cards_validation_tests()
     has_and_get_hand_tests()
+    win_conditions_tests()
     game = Balatro()
     game.loop()
 
-def new_deck_test():
+
+def new_deck_test() -> None:
     game = Balatro()
     game.new_deck()
     
-    another_deck = [('T', 1), ('T', 2), ('T', 3), ('T', 4), ('T', 5), ('T', 6), ('T', 7), ('T', 8), ('T', 9), ('T', 10), ('T', 11), ('T', 12), ('T', 13), ('C', 1), ('C', 2), ('C', 3), ('C', 4), ('C', 5), ('C', 6), ('C', 7), ('C', 8), ('C', 9), ('C', 10), ('C', 11), ('C', 12), ('C', 13), ('D', 1), ('D', 2), ('D', 3), ('D', 4), ('D', 5), ('D', 6), ('D', 7), ('D', 8), ('D', 9), ('D', 10), ('D', 11), ('D', 12), ('D', 13), ('P', 1), ('P', 2), ('P', 3), ('P', 4), ('P', 5), ('P', 6), ('P', 7), ('P', 8), ('P', 9), ('P', 10), ('P', 11), ('P', 12), ('P', 13)]
+    another_deck = [('T', 1), ('T', 2), ('T', 3), ('T', 4), ('T', 5), ('T', 6), ('T', 7), ('T', 8), ('T', 9), ('T', 10), ('T', 11), ('T', 12), ('T', 13),
+                    ('C', 1), ('C', 2), ('C', 3), ('C', 4), ('C', 5), ('C', 6), ('C', 7), ('C', 8), ('C', 9), ('C', 10), ('C', 11), ('C', 12), ('C', 13),
+                    ('D', 1), ('D', 2), ('D', 3), ('D', 4), ('D', 5), ('D', 6), ('D', 7), ('D', 8), ('D', 9), ('D', 10), ('D', 11), ('D', 12), ('D', 13),
+                    ('P', 1), ('P', 2), ('P', 3), ('P', 4), ('P', 5), ('P', 6), ('P', 7), ('P', 8), ('P', 9), ('P', 10), ('P', 11), ('P', 12), ('P', 13)]
     assert game.deck == another_deck
     game.shuffle_deck()
     assert game.deck != another_deck
@@ -229,13 +266,11 @@ def new_deck_test():
     assert len(game.deck) == 43
     assert all(card not in game.deck for card in game.hand)
     game.drop_cards('000000011')
-    assert len(game.hand) == 7
-    game.get_hand(9)
-    assert len(game.hand) == 9
-    assert len(game.deck) == 41
+    assert len(game.hand) == 9  # Se repone hasta tener 9
+    assert len(game.deck) == 43 - 2
     assert all(card not in game.deck for card in game.hand)
     
-def selected_cards_validation_tests():
+def selected_cards_validation_tests() -> None:
     game = Balatro()
     selected_cards = '111000001'
     assert game.selected_cards_validation(selected_cards) == True
@@ -243,7 +278,7 @@ def selected_cards_validation_tests():
     assert game.selected_cards_validation(selected_cards) == False
 
 
-def has_and_get_hand_tests():
+def has_and_get_hand_tests() -> None:
     game = Balatro()
     game.hand = [('P', 2), ('C', 2), ('P', 2), ('T', 2), ('P', 7), ('C', 4), ('P', 9), ('C', 13), ('D', 5)]
     #high card tests
@@ -262,13 +297,11 @@ def has_and_get_hand_tests():
     assert game.has_pair(selected_cards) == True
     assert game.get_pair(selected_cards) == [('P', 2), ('T', 2)]
 
-    #two pairs tests
-    #Three of a kind tests
-    #Straight tests
-    #Flush tests
-    #Full house tests
-    #Four of a kind tests
-    #Straight flush tests
+    # TODO: implementar tests para dos pares, trío, escalera, color, full house, póker y escalera de color
+
+def win_conditions_tests() -> None:
+    # TODO: definir condiciones de victoria o empate para probar
+    pass
 
 
 if __name__ == "__main__":
